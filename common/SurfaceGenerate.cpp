@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS//½ûÓÃ¾¯¸æ
+#define _CRT_SECURE_NO_WARNINGS//ç¦ç”¨è­¦å‘Š
 
 #include "SurfaceGenerate.h"
 
@@ -127,7 +127,7 @@ void SurfaceGenerate::setvn()
 	for (int i = 0; i < V; i++)
 		this->vnmap[i] = new XMVECTOR[U];
 
-	//´¦Àí±ß½Ç
+	//å¤„ç†è¾¹è§’
 	if (this->isquad)
 	{
 		this->vnmap[0][0] = this->fnmap[0][0];
@@ -145,7 +145,7 @@ void SurfaceGenerate::setvn()
 	this->vnmap[V - 1][0] = this->fnmap[V - 2][0];
 	this->vnmap[V - 1][U - 1] = this->fnmap[V - 2][U - 2];
 	
-	//´¦Àí±ß½ç
+	//å¤„ç†è¾¹ç•Œ
 	for (int i = 1; i < U - 1; i++)
 	{
 		if(this->isquad)
@@ -158,7 +158,7 @@ void SurfaceGenerate::setvn()
 		this->vnmap[i][U - 1] = XMVector3Normalize((this->fnmap[i - 1][U - 2] + this->fnmap[i][U - 2]) / 2.0f);
 	}
 
-	//´¦ÀíÄÚ²¿
+	//å¤„ç†å†…éƒ¨
 	for (int i = 1; i < V - 1; i++)
 		for (int j = 1; j < U - 1; j++)
 			this->vnmap[i][j] = XMVector3Normalize((this->fnmap[i - 1][j - 1] + this->fnmap[i - 1][j] + this->fnmap[i][j - 1] + this->fnmap[i][j]) / 4.0f);
@@ -189,20 +189,20 @@ void SurfaceGenerate::generateMesh()
 	for (int i = 0; i < V; i++)
 		this->posmap2[i] = new XMVECTOR[U];
 
-	//ÉÏÏÂÃæ
+	//ä¸Šä¸‹é¢
 	for (int i = 0; i < V; i++)
 	{
 		for (int j = 0; j < U; j++)
 		{
-			this->posmap2[i][j] = this->posmap[i][j] - (this->thickness / 2.0f)*this->vnmap[i][j];
-			this->posmap[i][j] = this->posmap[i][j] + (this->thickness / 2.0f)*this->vnmap[i][j];
+			this->posmap2[i][j] = this->posmap[i][j] - (this->thickness)*this->vnmap[i][j];
+			this->posmap[i][j] = this->posmap[i][j] + (this->thickness)*this->vnmap[i][j];
 
 			if (i == 0 && !this->isquad)
 				break;
 		}
 	}
 
-	//´æµã
+	//å­˜ç‚¹
 	for (int i = 0; i < V; i++)
 		for (int j = 0; j < U; j++)
 		{
@@ -224,7 +224,7 @@ void SurfaceGenerate::generateMesh()
 				break;
 		}
 
-	//´æuv
+	//å­˜uv
 	for (int i = 0; i < V; i++)
 		for (int j = 0; j < U; j++)
 		{
@@ -236,7 +236,7 @@ void SurfaceGenerate::generateMesh()
 		}
 
 
-	//´æ·¨Ïò
+	//å­˜æ³•å‘
 	for (int i = 0; i < V; i++)
 		for (int j = 0; j < U; j++)
 		{
@@ -259,10 +259,10 @@ void SurfaceGenerate::generateMesh()
 				break;
 		}
 
-	//´æÉÏÏÂÃæ
+	//å­˜ä¸Šä¸‹é¢
 	for (int t = 0; t < 2; t++)
 	{
-		//µÚÒ»ĞĞ
+		//ç¬¬ä¸€è¡Œ
 		if (!this->isquad)
 		{
 			for (int i = 0; i < U - 1; i++)
@@ -350,7 +350,7 @@ void SurfaceGenerate::generateMesh()
 	if (!this->isquad)
 		totalVTcount--;	
 
-	//´æ±ß1Ãæ
+	//å­˜è¾¹1é¢
 	for (int i = 0; i < V; i++)
 	{
 		this->TVData += "v ";
@@ -412,7 +412,7 @@ void SurfaceGenerate::generateMesh()
 	VTcount += 2 * V;
 	VNcount += V;
 
-	//´æ±ß2Ãæ
+	//å­˜è¾¹2é¢
 	for (int i = 0; i < U; i++)
 	{
 		this->TVData += "v ";
@@ -474,7 +474,7 @@ void SurfaceGenerate::generateMesh()
 	VTcount += 2 * U;
 	VNcount += U;
 
-	//´æ±ß3Ãæ£¨Èı½Ç£©
+	//å­˜è¾¹3é¢ï¼ˆä¸‰è§’ï¼‰
 	if (!this->isquad)
 	{
 		this->TVData += "v ";
@@ -553,10 +553,10 @@ void SurfaceGenerate::generateMesh()
 		VTcount += 2 * U;
 		VNcount += U;
 	}
-	//´æ±ß3¡¢4Ãæ£¨ËÄ±ßĞÎ£©
+	//å­˜è¾¹3ã€4é¢ï¼ˆå››è¾¹å½¢ï¼‰
 	else
 	{
-		//´æ±ß3Ãæ
+		//å­˜è¾¹3é¢
 		for (int i = 0; i < V; i++)
 		{
 			this->TVData += "v ";
@@ -617,7 +617,7 @@ void SurfaceGenerate::generateMesh()
 		VTcount += 2 * V;
 		VNcount += V;
 
-		//´æ±ß4Ãæ
+		//å­˜è¾¹4é¢
 		for (int i = 0; i < U; i++)
 		{
 			this->TVData += "v ";
@@ -765,10 +765,10 @@ int SurfaceGenerate::mainStream()
 	this->generateMesh();
 	//this->printPosmap();
 	//cout << this->TVNData << endl;
-	cout << "·Ö±æÂÊ(U,V)£º" << this->U << ',' << this->V << endl;
-	cout << "¶¥µãÊı£º" << Vcount << " ÎÆÀí×ø±êÊı£º" << VTcount << " ·¨ÏòÁ¿Êı£º" << VNcount << endl << endl;
-	cout << "ÒÑÉú³ÉÃÉÆ¤" << endl;
-	cout << "µ±Ç°×Ü¶¥µãÊı£º" << totalVcount << " ×ÜÎÆÀí×ø±êÊı£º" << totalVTcount << " ×Ü·¨ÏòÁ¿Êı£º" << totalVNcount << endl << endl;
+	cout << "åˆ†è¾¨ç‡(U,V)ï¼š" << this->U << ',' << this->V << endl;
+	cout << "é¡¶ç‚¹æ•°ï¼š" << Vcount << " çº¹ç†åæ ‡æ•°ï¼š" << VTcount << " æ³•å‘é‡æ•°ï¼š" << VNcount << endl << endl;
+	cout << "å·²ç”Ÿæˆè’™çš®" << endl;
+	cout << "å½“å‰æ€»é¡¶ç‚¹æ•°ï¼š" << totalVcount << " æ€»çº¹ç†åæ ‡æ•°ï¼š" << totalVTcount << " æ€»æ³•å‘é‡æ•°ï¼š" << totalVNcount << endl << endl;
 	return 1;
 }
 
