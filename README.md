@@ -1,16 +1,27 @@
-#BsgToOBJ v0.4
-
-Besiege机械存档转obj模型工具  
+bsg2obj-gui
+=
 by 摸鱼Pro  
 
-本工具使用Visual Studio community 2017，c++10进行开发编译，使用DirectX12函数库进行模型网格转换。工具本身及由工具生成的任何文件仅适用于学习交流，禁止用于商业用途。  
-若违反上述条例，造成的任何后果由违反条例的使用者承担。  
+本软件使用 Visual Studio community 2017，c++10 进行开发编译，DirectX12 函数库进行模型网格转换，MFC 对话框开发 GUI 界面，winsocket 实现前后端通信。工具本身及由工具生成的任何文件仅适用于学习交流，禁止用于商业用途。  
 
-使用说明见BsgToOBJ说明文档.pdf  
+当前版本：v1.0  
+详细说明见readme(简体中文).pdf  
 
-v0.4.1 2021/1/9  
-修正蒙皮厚度只有游戏内一半的问题  
-  
+Current version: v1.0  
+Check readme(English).pdf for more details
+
+
+更新日志
+=
+v1.0 2021/1/16  
+增加gui，使用winsock与BsgToOBJ.exe进行通信，BsgToOBJ.exe仍可通过控制台独立启动  
+增加gui英文翻译，可在gui中选择使用的语言  
+增加自定义翻译，在language table.csv中向后添加即可  
+增加52桨支持，现在可以导出52桨了  
+修改工坊文件夹路径，现在只需要定位到SteamLibrary\steamapps\workshop\即可  
+修正当零件被反转时，导出模型时没有正确应用的问题  
+修正导出的蒙皮表面厚度只有游戏中一半的问题  
+
 v0.4 2021/1/7  
 增加基于角度的新蒙皮分辨率步长，可在配置文件中设置，现在会综合边长和边弧度设置步长  
 修正.mtl文件d值，现在可在配置文件中设置玻璃的透明度了  
