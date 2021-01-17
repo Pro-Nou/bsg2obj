@@ -16,6 +16,7 @@ Check readme(English).pdf for more details
 更新日志
 =
 v1.0(hotfix) 2021/1/16  
+修正了mod零件导致程序崩溃的问题  
 修正了当零件某一轴的缩放比例为0时导致模型不可读的问题  
 修正了钢筋、绞绳、皮筋长度错误的问题  
 修正了GUI显示错误的问题  
