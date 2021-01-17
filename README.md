@@ -1,6 +1,7 @@
 bsg2obj-gui
 =
 by 摸鱼Pro  
+![image](https://github.com/Pro-Nou/bsg2obj/blob/main/tex/title.png)
 
 本软件使用 Visual Studio community 2017，c++10 进行开发编译，DirectX12 函数库进行模型网格转换，MFC 对话框开发 GUI 界面，winsocket 实现前后端通信。软件本身及生成的任何文件仅适用于学习交流，禁止用于商业用途。  
 当前版本：v1.0  
