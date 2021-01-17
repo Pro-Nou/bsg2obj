@@ -379,10 +379,13 @@ void BsgToOBJ::readBlock(string MData)
 
 		//存id
 		blocks->id = stoi(blockData.substr(blockData.find("id=\"") + 4, blockData.find("\" guid") - blockData.find("id=\"") - 4));
+		blocks->guid = blockData.substr(blockData.find("guid=\"") + 6, blockData.find("\">") - blockData.find("guid=\"") - 6);
+		cout << "loading...guid=" << blocks->guid << endl;
+
 		//cout << blockData.substr(blockData.find("id=\"") + 4, blockData.find("\" guid")) << endl;
 		//cout << blockData.find("id=\"") + 4 << ',' << blockData.find("\" guid") << endl;
 		//跳过禁用零件和新蒙皮(building surface)
-		if (blocks->id > 73 || denyList[blocks->id] || blocks->id>=1000)
+		if (blocks->id > 73 || denyList[blocks->id] || blocks->id >= blockCount)
 		{
 			if (blocks->id == 71)
 			{
@@ -390,6 +393,7 @@ void BsgToOBJ::readBlock(string MData)
 				//存名称
 				points->blockName = blockList[blocks->id];
 				points->id = blocks->id;
+				
 				//存guid
 				points->guid = blockData.substr(blockData.find("guid=\"") + 6, blockData.find("\">") - blockData.find("guid=\"") - 6);
 				
@@ -422,10 +426,22 @@ void BsgToOBJ::readBlock(string MData)
 				edges->position = XMVectorSet(px, py, pz, 0.0);
 
 				//存起点guid
+				if (blockData.find("start\">") == blockData.npos)
+				{
+					edges->blockName = "NULL";
+					MData = MData.substr(MData.find("</Block>"));
+					continue;
+				}
 				blockData = blockData.substr(blockData.find("start\">"));
 				edges->guidStart= blockData.substr(7, blockData.find("</String>") - 7);
 
 				//存终点guid
+				if (blockData.find("end\">") == blockData.npos)
+				{
+					edges->blockName = "NULL";
+					MData = MData.substr(MData.find("</Block>"));
+					continue;
+				}
 				blockData = blockData.substr(blockData.find("end\">"));
 				edges->guidEnd = blockData.substr(5, blockData.find("</String>") - 5);
 
@@ -439,6 +455,7 @@ void BsgToOBJ::readBlock(string MData)
 				//存名称
 				surfs->blockName = blockList[blocks->id];
 				surfs->id = blocks->id;
+				surfs->guid = blockData.substr(blockData.find("guid=\"") + 6, blockData.find("\">") - blockData.find("guid=\"") - 6);
 				//存皮肤
 				if (blockData.find("<Skin") == blockData.npos)
 				{
@@ -502,6 +519,12 @@ void BsgToOBJ::readBlock(string MData)
 				surfs->thickness = thickness;
 
 				//存边
+				if (blockData.find("edges\">") == blockData.npos)
+				{
+					surfs->blockName = "NULL";
+					MData = MData.substr(MData.find("</Block>"));
+					continue;
+				}
 				blockData = blockData.substr(blockData.find("edges\">"));
 				string edges = blockData.substr(blockData.find("edges\">") + 7, blockData.find("</String>") - blockData.find("edges\">") - 7);
 				int edgesCount = (int)count(edges.begin(), edges.end(), '|') + 1;
@@ -525,8 +548,8 @@ void BsgToOBJ::readBlock(string MData)
 			MData = MData.substr(MData.find("</Block>"));
 			continue;
 		}
+		
 		totalBlocksCount++;
-
 		blockData = blockData.substr(blockData.find("<Position"));
 
 		//存本地转换
@@ -785,7 +808,7 @@ int BsgToOBJ::mainStream(string cmdInput)
 	localTime += to_string(sys.wHour) + "'" + to_string(sys.wMinute) + "'" + to_string(sys.wSecond);
 
 	readBlock(MData);
-
+	//system("pause");
 	if (serverMode)
 		if (BSGtcp.TCPsend(to_string(totalBlocksCount)) == SOCKET_ERROR)
 			return SOCKET_ERROR;
@@ -805,7 +828,6 @@ int BsgToOBJ::mainStream(string cmdInput)
 
 	string MTLs;
 
-	string skinNotFound;
 	//存模型&贴图
 	while (blocks->id>-1)
 	{
@@ -852,9 +874,9 @@ int BsgToOBJ::mainStream(string cmdInput)
 			}
 			else
 			{
-				if (skinNotFound.find(blocks->skinName) == skinNotFound.npos)
+				if (skinModelNotFound.find(blocks->skinName) == skinModelNotFound.npos)
 				{
-					skinNotFound += blocks->skinName + '\n';
+					skinModelNotFound += blocks->skinName + blocks->blockName + '\n';
 				}
 				_findfirst((skinPath + "Template\\" + blockList[blocks->id] + "\\*.obj").c_str(), &objfileinfo);
 				modelPath = skinPath + "Template\\" + blockList[blocks->id] + '\\' + objfileinfo.name;
@@ -953,7 +975,7 @@ int BsgToOBJ::mainStream(string cmdInput)
 			{
 				if (skinNotFound.find(blocks->skinName) == skinNotFound.npos)
 				{
-					skinNotFound += blocks->skinName + '\n';
+					skinNotFound += blocks->skinName + blocks->blockName + '\n';
 				}
 				blocks->skinName = "Template\\";
 				_findfirst((skinPath + blocks->skinName + blockList[blocks->id] + "\\*.png").c_str(), &pngfileinfo);
@@ -1156,7 +1178,7 @@ int BsgToOBJ::mainStream(string cmdInput)
 				{
 					if (skinNotFound.find(surfs->skinName) == skinNotFound.npos)
 					{
-						skinNotFound += surfs->skinName + '\n';
+						skinNotFound += surfs->skinName + surfs->blockName + '\n';
 					}
 					surfs->skinName = "Template\\";
 					_findfirst((skinPath + surfs->skinName + blockList[surfs->id] + "\\*.png").c_str(), &pngfileinfo);
@@ -1234,7 +1256,9 @@ int BsgToOBJ::mainStream(string cmdInput)
 	cout << "总顶点数：" << totalVcount << endl;
 	cout << "总法向量数：" << totalVNcount << endl;
 	cout << "总纹理贴图顶点数：" << totalVTcount << endl;
-	cout << "未找到的皮肤：" << endl;
+	cout << "未找到的皮肤模型：" << endl;
+	cout << skinModelNotFound << endl;
+	cout << "未找到的皮肤贴图：" << endl;
 	cout << skinNotFound << endl;
 	fclose(Mfile);
 	fclose(MTLfile);
@@ -1325,6 +1349,10 @@ int main(int argc, char *argv[])
 		cout << "shutdown" << endl;
 		a.BSGtcp.TCPshutdown();
 	}
+	if (a.skinModelNotFound.length() > 0)
+		MessageBox(NULL, ("skin models not found:\n" + a.skinModelNotFound).c_str(), "Oops!", MB_ICONWARNING | MB_OK);
+	if (a.skinNotFound.length() > 0)
+		MessageBox(NULL, ("skin textures not found:\n" + a.skinNotFound).c_str(), "Oops!", MB_ICONWARNING | MB_OK);
 	if (b == 1)
 		MessageBox(NULL, a.language[a.langType + 1][a.getLang((char*)"DONE")].c_str(), "Done", MB_ICONASTERISK | MB_OK);
 

@@ -44,6 +44,8 @@ public:
 	int blocksCount = 1;//存档内的总零件数
 	int totalBlocksCount = 0;
 	int proStep = 15;
+	string skinNotFound = "";
+	string skinModelNotFound = "";
 
 	string **language;//存语言表
 	int langRow;
