@@ -27,6 +27,7 @@ public:
 		XMVECTOR localScale;
 		string skinName;
 		string skinID;
+		string guid;
 		bool isFlipped = false;
 		blockNode *next;
 	};
@@ -66,6 +67,7 @@ public:
 		float thickness;//厚度
 		string skinName;
 		string skinID;
+		string guid;
 		string matCode;//材质码，区分同贴图不同RGBA、sat、lum的材质
 		surfNode *next;
 	};
@@ -95,6 +97,7 @@ public:
 	{
 		cout << "零件ID：" << block->id << endl;
 		cout << "零件名：" << block->blockName << endl;
+		cout << "guid：" << block->guid << endl;
 		cout << "平移坐标：";
 		printXMVECTOR(block->position, 0);
 		cout << "四元数：";
@@ -134,6 +137,7 @@ public:
 	{
 		int times = 0;
 		cout << "零件名：" << surf->blockName << endl;
+		cout << "guid：" << surf->guid << endl;
 		cout << "材质：" << surf->surfMat << endl;
 		cout << "着色：" << surf->painted << endl;
 		if (surf->painted)
