@@ -2,12 +2,12 @@ bsg2obj-gui
 =
 by 摸鱼Pro  
 
-本软件使用Visual Studio community 2017，c++10进行开发编译，DirectX12函数库进行模型网格转换，MFC对话框开发GUI界面，winsocket实现前后端通信。工具本身及由工具生成的任何文件仅适用于学习交流，禁止用于商业用途。  
+本软件使用 Visual Studio community 2017，c++10 进行开发编译，DirectX12 函数库进行模型网格转换，MFC 对话框开发 GUI 界面，winsocket 实现前后端通信。软件本身及生成的任何文件仅适用于学习交流，禁止用于商业用途。  
 当前版本：v1.0  
-详细说明见readme(简体中文).pdf  
+详细说明见 readme(简体中文).pdf  
 
 
-
+This software developed by using Visual Studio community 2017, c++10, uses DirectX12 to convert model meshes, MFC to design GUI, and winsocket for communication between foreground and background. This software and its files only for study and communication. Do not use them in any commercial activities.  
 Current version: v1.0  
 Check readme(English).pdf for more details
 
