@@ -382,7 +382,7 @@ void BsgToOBJ::readBlock(string MData)
 		//cout << blockData.substr(blockData.find("id=\"") + 4, blockData.find("\" guid")) << endl;
 		//cout << blockData.find("id=\"") + 4 << ',' << blockData.find("\" guid") << endl;
 		//跳过禁用零件和新蒙皮(building surface)
-		if (blocks->id > 73 || denyList[blocks->id])
+		if (blocks->id > 73 || denyList[blocks->id] || blocks->id>=1000)
 		{
 			if (blocks->id == 71)
 			{
