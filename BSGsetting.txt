@@ -1,4 +1,0 @@
-<minimal-cylinder-length>0.1</minimal-cylinder-length>//钢筋、皮筋、绞盘长度小于该值识别为点
-<surface-step>0.25</surface-step>//新蒙皮分辨率大致步长
-<surface-step-angle>5</surface-step-angle>//新蒙皮分辨率大致步长(基于角度)
-<glass-alpha>0.3</glass-alpha>//玻璃透明度
