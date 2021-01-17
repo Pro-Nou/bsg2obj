@@ -1,0 +1,14 @@
+# Blender MTL File: 'Besiege unused.blend'
+# Material Count: 1
+
+newmtl PropellerSquareSmallDiffuse
+Ns 0.703124
+Ka 1.000000 1.000000 1.000000
+Kd 0.970588 0.970588 0.970588
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd PropellerSquareSmallDiffuse.png
+map_d PropellerSquareSmallDiffuse.png

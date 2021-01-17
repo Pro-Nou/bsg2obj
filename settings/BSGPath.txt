@@ -1,0 +1,8 @@
+<saveM>D:\SteamLibrary\steamapps\common\Besiege\Besiege_Data\SavedMachines\</saveM>
+
+<saveL></saveL>
+
+<skin>D:\SteamLibrary\steamapps\common\Besiege\Besiege_Data\Skins\</skin>
+
+<workShop>D:\SteamLibrary\steamapps\workshop\</workShop>
+

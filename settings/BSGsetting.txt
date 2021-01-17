@@ -1,0 +1,7 @@
+<minimal-cylinder-length>0.1</minimal-cylinder-length>
+<surface-step>0.25</surface-step>
+<surface-step-angle>5.0</surface-step-angle>
+<glass-alpha>0.3</glass-alpha>
+<language>0</language>
+<cmdOn>0</cmdOn>
+<exePath></exePath>
