@@ -582,11 +582,11 @@ void BsgToOBJ::readBlock(string MData)
 		sy = stof(blockData.substr(blockData.find("y=\"") + 3, blockData.find("\" z") - blockData.find("y=\"") - 3));
 		sz = stof(blockData.substr(blockData.find("z=\"") + 3, blockData.find("\" />") - blockData.find("z=\"") - 3));
 		if (sx == 0.0f)
-			sx = 0.01f;
+			sx = 0.0001f;
 		if (sy == 0.0f)
-			sy = 0.01f;
+			sy = 0.0001f;
 		if (sz == 0.0f)
-			sz = 0.01f;
+			sz = 0.0001f;
 		blocks->scale = XMVectorSet(sx, sy, sz, 0.0);
 		//cout << sx << endl << sy << endl << sz << endl;
 
