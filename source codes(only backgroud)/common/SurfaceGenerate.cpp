@@ -252,16 +252,17 @@ void SurfaceGenerate::generateMesh()
 		{
 			//this->vnmap[i][j] = -this->vnmap[i][j];
 			this->TVNData += "vn ";
-			this->TVNData += to_string(this->vnmap[i][j].m128_f32[0]) + " ";
-			this->TVNData += to_string(this->vnmap[i][j].m128_f32[1]) + " ";
-			this->TVNData += to_string(this->vnmap[i][j].m128_f32[2]) + "\n";
+			this->TVNData += to_string(-this->vnmap[i][j].m128_f32[0]) + " ";
+			this->TVNData += to_string(-this->vnmap[i][j].m128_f32[1]) + " ";
+			this->TVNData += to_string(-this->vnmap[i][j].m128_f32[2]) + "\n";
 			if (i == 0 && !this->isquad)
 				break;
 		}
 
 	//存上下面
-	for (int t = 0; t < 2; t++)
+	//for (int t = 0; t < 2; t++)
 	{
+		//上面
 		//第一行
 		if (!this->isquad)
 		{
@@ -327,12 +328,12 @@ void SurfaceGenerate::generateMesh()
 					this->TFData += to_string(totalVcount + (i + 1) * U + j + 1) + '/';
 					this->TFData += to_string(totalVTcount + (i + 1) * U + j + 1) + '/';
 					this->TFData += to_string(totalVNcount + (i + 1) * U + j + 1);
-					
+
 					this->TFData += ' ';
 					this->TFData += to_string(totalVcount + (i + 1) * U + j + 2) + '/';
 					this->TFData += to_string(totalVTcount + (i + 1) * U + j + 2) + '/';
 					this->TFData += to_string(totalVNcount + (i + 1) * U + j + 2);
-					
+
 					this->TFData += ' ';
 					this->TFData += to_string(totalVcount + i * U + j + 2) + '/';
 					this->TFData += to_string(totalVTcount + i * U + j + 2) + '/';
@@ -344,6 +345,90 @@ void SurfaceGenerate::generateMesh()
 			Vcount += U * V;
 			VNcount += U * V;
 		}
+		//下面
+		//第一行
+		if (!this->isquad)
+		{
+			for (int i = 0; i < U - 1; i++)
+			{
+				this->TFData += "f ";
+				this->TFData += to_string(totalVcount + 1) + '/';
+				this->TFData += to_string(totalVTcount + i + 1) + '/';
+				this->TFData += to_string(totalVNcount + 1);
+
+				this->TFData += ' ';
+				this->TFData += to_string(totalVcount + i + 3) + '/';
+				this->TFData += to_string(totalVTcount + i + U + 1) + '/';
+				this->TFData += to_string(totalVNcount + i + 3);
+
+				this->TFData += ' ';
+				this->TFData += to_string(totalVcount + i + 2) + '/';
+				this->TFData += to_string(totalVTcount + i + U) + '/';
+				this->TFData += to_string(totalVNcount + i + 2) + '\n';
+			}
+			for (int i = 1; i < V - 1; i++)
+			{
+				for (int j = 0; j < U - 1; j++)
+				{
+					this->TFData += "f ";
+					this->TFData += to_string(totalVcount + (i - 1) * U + j + 3) + '/';
+					this->TFData += to_string(totalVTcount + i * U + j + 1) + '/';
+					this->TFData += to_string(totalVNcount + (i - 1) * U + j + 3);
+
+					this->TFData += ' ';
+					this->TFData += to_string(totalVcount + i * U + j + 3) + '/';
+					this->TFData += to_string(totalVTcount + (i + 1) * U + j + 1) + '/';
+					this->TFData += to_string(totalVNcount + i * U + j + 3);
+
+					this->TFData += ' ';
+					this->TFData += to_string(totalVcount + i * U + j + 2) + '/';
+					this->TFData += to_string(totalVTcount + (i + 1) * U + j) + '/';
+					this->TFData += to_string(totalVNcount + i * U + j + 2);
+
+					this->TFData += ' ';
+					this->TFData += to_string(totalVcount + (i - 1) * U + j + 2) + '/';
+					this->TFData += to_string(totalVTcount + i * U + j) + '/';
+					this->TFData += to_string(totalVNcount + (i - 1) * U + j + 2) + '\n';
+				}
+			}
+			totalVcount += U * (V - 1) + 1;
+			totalVNcount += U * (V - 1) + 1;
+			Vcount += U * (V - 1) + 1;
+			VNcount += U * (V - 1) + 1;
+		}
+		else
+		{
+			for (int i = 0; i < V - 1; i++)
+			{
+				for (int j = 0; j < U - 1; j++)
+				{
+					this->TFData += "f ";
+					this->TFData += to_string(totalVcount + i * U + j + 2) + '/';
+					this->TFData += to_string(totalVTcount + i * U + j + 2) + '/';
+					this->TFData += to_string(totalVNcount + i * U + j + 2);
+
+					this->TFData += ' ';
+					this->TFData += to_string(totalVcount + (i + 1) * U + j + 2) + '/';
+					this->TFData += to_string(totalVTcount + (i + 1) * U + j + 2) + '/';
+					this->TFData += to_string(totalVNcount + (i + 1) * U + j + 2);
+
+					this->TFData += ' ';
+					this->TFData += to_string(totalVcount + (i + 1) * U + j + 1) + '/';
+					this->TFData += to_string(totalVTcount + (i + 1) * U + j + 1) + '/';
+					this->TFData += to_string(totalVNcount + (i + 1) * U + j + 1);
+
+					this->TFData += ' ';
+					this->TFData += to_string(totalVcount + i * U + j + 1) + '/';
+					this->TFData += to_string(totalVTcount + i * U + j + 1) + '/';
+					this->TFData += to_string(totalVNcount + i * U + j + 1) + '\n';
+				}
+			}
+			totalVcount += U * V;
+			totalVNcount += U * V;
+			Vcount += U * V;
+			VNcount += U * V;
+		}
+
 	}
 	totalVTcount += U * V;
 	VTcount += U * V;
@@ -371,7 +456,7 @@ void SurfaceGenerate::generateMesh()
 	}
 	XMVECTOR *edgeN = new XMVECTOR[V];
 	for (int i = 0; i < V - 1; i++)
-		edgeN[i] = generateNormal(this->posmap[i][0], this->posmap[i + 1][0], this->posmap2[i + 1][0]);
+		edgeN[i] = generateNormal(this->posmap2[i][0], this->posmap2[i + 1][0], this->posmap[i + 1][0]);
 	edgeN[V - 1] = edgeN[V - 2];
 	for (int i = 1; i < V - 1; i++)
 		edgeN[i] = (edgeN[i] + edgeN[i - 1]) / 2.0f;
@@ -386,14 +471,9 @@ void SurfaceGenerate::generateMesh()
 	for (int i = 0; i < V - 1; i++)
 	{
 		this->TFData += "f ";
-		this->TFData += to_string(totalVcount + i * 2 + 1) + '/';
-		this->TFData += to_string(totalVTcount + i * 2 + 1) + '/';
+		this->TFData += to_string(totalVcount + i * 2 + 2) + '/';
+		this->TFData += to_string(totalVTcount + i * 2 + 2) + '/';
 		this->TFData += to_string(totalVNcount + i + 1);
-
-		this->TFData += " ";
-		this->TFData += to_string(totalVcount + i * 2 + 3) + '/';
-		this->TFData += to_string(totalVTcount + i * 2 + 3) + '/';
-		this->TFData += to_string(totalVNcount + i + 2);
 
 		this->TFData += " ";
 		this->TFData += to_string(totalVcount + i * 2 + 4) + '/';
@@ -401,8 +481,13 @@ void SurfaceGenerate::generateMesh()
 		this->TFData += to_string(totalVNcount + i + 2);
 
 		this->TFData += " ";
-		this->TFData += to_string(totalVcount + i * 2 + 2) + '/';
-		this->TFData += to_string(totalVTcount + i * 2 + 2) + '/';
+		this->TFData += to_string(totalVcount + i * 2 + 3) + '/';
+		this->TFData += to_string(totalVTcount + i * 2 + 3) + '/';
+		this->TFData += to_string(totalVNcount + i + 2);
+
+		this->TFData += " ";
+		this->TFData += to_string(totalVcount + i * 2 + 1) + '/';
+		this->TFData += to_string(totalVTcount + i * 2 + 1) + '/';
 		this->TFData += to_string(totalVNcount + i + 1) + '\n';
 	}
 	totalVcount += 2 * V;
@@ -433,7 +518,7 @@ void SurfaceGenerate::generateMesh()
 	}
 	edgeN = new XMVECTOR[U];
 	for (int i = 0; i < U - 1; i++)
-		edgeN[i] = generateNormal(this->posmap[V - 1][i], this->posmap[V - 1][i + 1], this->posmap2[V - 1][i + 1]);
+		edgeN[i] = generateNormal(this->posmap2[V - 1][i], this->posmap2[V - 1][i + 1], this->posmap[V - 1][i + 1]);
 	edgeN[U - 1] = edgeN[U - 2];
 	for (int i = 1; i < U - 1; i++)
 		edgeN[i] = (edgeN[i] + edgeN[i - 1]) / 2.0f;
@@ -448,14 +533,9 @@ void SurfaceGenerate::generateMesh()
 	for (int i = 0; i < U - 1; i++)
 	{
 		this->TFData += "f ";
-		this->TFData += to_string(totalVcount + i * 2 + 1) + '/';
-		this->TFData += to_string(totalVTcount + i * 2 + 1) + '/';
+		this->TFData += to_string(totalVcount + i * 2 + 2) + '/';
+		this->TFData += to_string(totalVTcount + i * 2 + 2) + '/';
 		this->TFData += to_string(totalVNcount + i + 1);
-
-		this->TFData += " ";
-		this->TFData += to_string(totalVcount + i * 2 + 3) + '/';
-		this->TFData += to_string(totalVTcount + i * 2 + 3) + '/';
-		this->TFData += to_string(totalVNcount + i + 2);
 
 		this->TFData += " ";
 		this->TFData += to_string(totalVcount + i * 2 + 4) + '/';
@@ -463,8 +543,13 @@ void SurfaceGenerate::generateMesh()
 		this->TFData += to_string(totalVNcount + i + 2);
 
 		this->TFData += " ";
-		this->TFData += to_string(totalVcount + i * 2 + 2) + '/';
-		this->TFData += to_string(totalVTcount + i * 2 + 2) + '/';
+		this->TFData += to_string(totalVcount + i * 2 + 3) + '/';
+		this->TFData += to_string(totalVTcount + i * 2 + 3) + '/';
+		this->TFData += to_string(totalVNcount + i + 2);
+
+		this->TFData += " ";
+		this->TFData += to_string(totalVcount + i * 2 + 1) + '/';
+		this->TFData += to_string(totalVTcount + i * 2 + 1) + '/';
 		this->TFData += to_string(totalVNcount + i + 1) + '\n';
 	}
 	totalVcount += 2 * U;
