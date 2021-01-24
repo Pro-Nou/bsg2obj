@@ -15,6 +15,9 @@ Check readme(English).pdf for more details
 
 更新日志
 =
+v1.0(hotfix) 2021/1/24  
+修正了对模型使用背面剔除时部分面被错误剔除的问题  
+
 v1.0(hotfix) 2021/1/16  
 增加guid显示，便于识别问题零件  
 修正了当皮肤仅有贴图没有模型时返回的缺失皮肤列表有歧义的问题  
