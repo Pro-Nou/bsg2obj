@@ -12,7 +12,9 @@ This software developed by using Visual Studio community 2017, c++10, uses Direc
 Current version: v1.0  
 Check readme(English).pdf for more details
 
-
+本项目现已移植为游戏内mod  
+https://github.com/Pro-Nou/bsg2obj-mod-version-  
+  
 更新日志
 =
 v1.0(hotfix) 2021/1/24  
